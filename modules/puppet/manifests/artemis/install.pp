@@ -1,4 +1,4 @@
-# installs the Artemis package
+# Installs the Artemis package
 class puppet::artemis::install (
 
 ) inherits puppet::artemis {

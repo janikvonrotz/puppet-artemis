@@ -1,4 +1,4 @@
-# creates the Artemis instance
+# Creates the Artemis instance
 class puppet::artemis::instance (
 
 ) inherits puppet::artemis {

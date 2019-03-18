@@ -73,6 +73,15 @@ task puppetClean(
 			"${project.buildDir}/generated/modules", PUPPET_NODE_CONFIG, '--hiera_config', PUPPET_HIERA_CONFIG
 }
 
+task puppetStrings(
+		type: Exec,
+		group: 'puppet',
+		dependsOn: assemble
+) {
+	commandLine 'puppet', 'strings', 'generate', '--format', 'markdown',
+			"${project.buildDir}/generated/modules/puppet/manifests/*", '--out', 'REFERENCE.md'
+}
+
 task zipModule(
 		type: Zip,
 		group: 'puppet',

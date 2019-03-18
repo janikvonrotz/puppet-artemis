@@ -1,4 +1,4 @@
-# configures the Artemis instance
+# Configures the Artemis instance
 class puppet::artemis::config (
 
 ) inherits puppet::artemis {

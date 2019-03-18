@@ -1,4 +1,4 @@
-# sets the state of the Artemis service
+# Sets the state of the Artemis service
 class puppet::artemis::service (
 
 ) inherits puppet::artemis {

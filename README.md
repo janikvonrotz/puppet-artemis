@@ -2,6 +2,12 @@
 
 Local deployable Puppet module that configures an Artemis broker instance.
 
+## Reference
+
+
+
+# Local Deployment
+
 ## Requirements
 
 The following requirements apply to a local deployment:
@@ -44,6 +50,11 @@ Create Artemis Puppet module zip file.
 **puppetLint**  
 Run Puppet Lint.
 
+**puppetStrings**
+Run Puppet Strings and generate reference doc.
+
+# Development
+
 ## Integration
 
 If you want to use the Artemis module in another project, follow these steps:
@@ -55,3 +66,13 @@ If you want to use the Artemis module in another project, follow these steps:
 * **Install** the Artemis Puppet module **dependencies**
   * stdlib: `puppet module install puppetlabs-stdlib`
 * Run `FACTER_env=$ENVIRONMENT_NAME puppet apply --modulepath $MODULES_PATH  $NODE_CONFIG_PATH --hiera_config=$HIERA_CONFIG_PATH` to deploy an Artemis instance
+
+## Generate Docs
+
+In order to create the REFERENCE.md document run gradle assemble.
+
+`gradle assemble`
+
+And generate the doc with the [Puppet Strings](https://puppet.com/docs/puppet/latest/puppet_strings.html) cli.
+
+`puppet strings generate --format markdown build/generated/modules/puppet/manifests/* --out modules/puppet/REFERENCE.md`
