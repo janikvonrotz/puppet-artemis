@@ -1,0 +1,86 @@
+plugins {
+	id "de.undercouch.download" version "3.4.3"
+}
+
+group 'janikvonrotz'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'base'
+
+def props = [ ARTEMIS_VERSION : ARTEMIS_VERSION ]
+
+task downloadArtemisZipFile(
+		type: Download
+) {
+	src "http://mirror.easyname.ch/apache/activemq/activemq-artemis/${ARTEMIS_VERSION}/apache-artemis-${ARTEMIS_VERSION}-bin.zip"
+	dest new File("${buildDir}/generated/modules/puppet/files/artemis", "apache-artemis-${ARTEMIS_VERSION}-bin.zip")
+}
+
+task puppetLint(
+		type: Exec,
+		group: 'puppet',
+		dependsOn: assemble,
+) {
+	commandLine 'puppet-lint', "${project.buildDir}/generated/modules/puppet", '--no-variable_scope-check', '--fail-on-warnings'
+}
+
+task copyModule(
+		type: Copy
+) {
+	from 'modules'
+	into "${project.buildDir}/generated/modules"
+	filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: props)
+}
+
+task ensureCertificatesDirectory {
+	doLast {
+		mkdir "/var/tmp/certificates"
+	}
+}
+
+task copyKeyMaterial(
+		type: Copy,
+		dependsOn: ensureCertificatesDirectory,
+) {
+	from "certificates/${PUPPET_ENV}"
+	into "/var/tmp/certificates"
+}
+
+task puppetPrepare(
+		type: Exec,
+		group: 'puppet',
+		dependsOn: [copyModule,copyKeyMaterial,downloadArtemisZipFile]
+) {
+	commandLine 'puppet', 'module', 'install', 'puppetlabs-stdlib', '--version', PUPPET_STDLIB_VERSION, '--modulepath',
+			"${project.buildDir}/generated/modules"
+}
+
+task puppetApply(
+		type: Exec,
+		group: 'puppet',
+		dependsOn: copyModule
+) {
+	commandLine 'sudo', "FACTER_env=${PUPPET_ENV}", 'puppet', 'apply', '--modulepath', "${project.buildDir}/generated/modules",
+			PUPPET_NODE_CONFIG, '--hiera_config', PUPPET_HIERA_CONFIG
+}
+
+task puppetClean(
+		type: Exec,
+		group: 'puppet',
+		dependsOn: copyModule
+) {
+	commandLine 'sudo', 'FACTER_clean=true', "FACTER_env=${PUPPET_ENV}", 'puppet', 'apply', '--modulepath',
+			"${project.buildDir}/generated/modules", PUPPET_NODE_CONFIG, '--hiera_config', PUPPET_HIERA_CONFIG
+}
+
+task zipModule(
+		type: Zip,
+		group: 'puppet',
+		dependsOn: copyModule
+) {
+	from "${project.buildDir}/generated/modules"
+	include('puppet/**')
+	archiveFileName = 'puppet-artemis.zip'
+	exclude '**/.gitkeep'
+}
+assemble.dependsOn zipModule

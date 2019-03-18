@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache ActiveMQ Artemis
+After=network-online.target
+
+[Service]
+Type=forking
+WorkingDirectory=<%= $puppet::artemis::data_dir %>/<%= $puppet::artemis::instance_name %>/bin
+ExecStart=<%= $puppet::artemis::data_dir %>/<%= $puppet::artemis::instance_name %>/bin/artemis-service start
+ExecStop=<%= $puppet::artemis::data_dir %>/<%= $puppet::artemis::instance_name %>/bin/artemis-service stop
+Restart=on-abort
+User=<%= $puppet::artemis::owner %>
+Group=<%= $puppet::artemis::group %>
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,2 @@
+---
+puppet::artemis::instance_name: 'broker'

@@ -1,0 +1,3 @@
+---
+puppet::artemis::enable_ssl: true
+#puppet::artemis::host: host.example.com

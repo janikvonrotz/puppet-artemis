@@ -1,0 +1,19 @@
+{
+	"name": "puppet/artemis",
+	"version": "0.0.0",
+	"author": "Janik von Rotz",
+	"summary": "Configure Apache Artemis Instance",
+	"license": "Apache-2.0",
+	"source": "GIT",
+	"dependencies": [
+		{
+			"name": "puppetlabs/stdlib",
+			"version_requirement": ">=2.6.0 < 5.0.0"
+		}
+	],
+	"operatingsystem_support": [
+		{
+			"operatingsystem": "RedHat"
+		}
+	]
+}
