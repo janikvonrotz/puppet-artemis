@@ -6,7 +6,7 @@ class puppet::artemis (
   Integer $admin_port = 8161,
   String $version = '@ARTEMIS_VERSION@',
   String $instance_name = 'artemis',
-  Boolean $clean = ($facts['clean'] or $facts['adnovum_clean']),
+  Boolean $clean = $facts['clean'],
 
   Boolean $is_failover_instance = false,
   Optional[String] $failover_buddy_host = undef,
