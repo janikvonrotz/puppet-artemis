@@ -74,7 +74,7 @@
 #   User ID of the Artemis service user.
 # @param [Array[String]] membership
 #   List of group names of which the Artemis service user is a member.
-# @param [String] artemis
+# @param [String] group
 #   Artemis service group name.
 # @param [Integer] gid
 #   Group ID of the Artemis service group.

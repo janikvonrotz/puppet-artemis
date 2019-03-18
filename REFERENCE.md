@@ -289,11 +289,13 @@ List of group names of which the Artemis service user is a member.
 
 Default value: ['artemis']
 
-##### `artemis`
+##### `group`
 
 Data type: `String`
 
 Artemis service group name.
+
+Default value: 'artemis'
 
 ##### `gid`
 
@@ -358,12 +360,4 @@ Data type: `String`
 Default folder read mode mask for all users.
 
 Default value: 'a=rx'
-
-##### `group`
-
-Data type: `String`
-
-
-
-Default value: 'artemis'
 
