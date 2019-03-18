@@ -24,7 +24,7 @@
 #   If set the cleanup instead of the install tasks will be executed.
 # @param [Boolean] is_failover_instance
 #   Defines wether this intance is a failover instance in a cluster setup.
-# @param [String] failover_buddy_host
+# @param [Optional[String]] failover_buddy_host
 #   Sets the failover buddy host in a cluster setup.
 # @param [String] cluster_user
 #   Username for cluster access.
