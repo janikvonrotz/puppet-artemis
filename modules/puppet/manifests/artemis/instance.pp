@@ -16,8 +16,7 @@ class puppet::artemis::instance (
     exec { "create artemis instance ${instance_name}":
       onlyif  => "test ! -d ${instance_dir}",
       command => "${app_dir}/bin/artemis create --host ${host} --default-port ${port} \
-        --user ${user} --password ${password} --require-login \
-        ${instance_dir}",
+      --user ${users[0]['userid']} --password ${users[0]['password']} --require-login ${instance_dir}",
       user    => $owner,
       group   => $group,
     }

@@ -1,2 +1,3 @@
 ---
 puppet::artemis::instance_name: 'broker'
+#puppet::artemis::host: host.example.com

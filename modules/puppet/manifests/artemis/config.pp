@@ -74,6 +74,26 @@ class puppet::artemis::config (
       notify  => Service["artemis ${instance_name}"],
     }
 
+    file { 'artemis users properties':
+      ensure  => file,
+      path    => "${instance_dir}/etc/artemis-users.properties",
+      owner   => $owner,
+      group   => $group,
+      mode    => $file_read_mode,
+      content => epp('puppet/artemis/artemis-users.properties.epp'),
+      notify  => Service["artemis ${instance_name}"],
+    }
+
+    file { 'artemis roles properties':
+      ensure  => file,
+      path    => "${instance_dir}/etc/artemis-roles.properties",
+      owner   => $owner,
+      group   => $group,
+      mode    => $file_read_mode,
+      content => epp('puppet/artemis/artemis-roles.properties.epp'),
+      notify  => Service["artemis ${instance_name}"],
+    }
+
     file { "${instance_dir}/etc/jolokia-access.xml":
       ensure => file,
       owner  => $owner,
@@ -81,6 +101,27 @@ class puppet::artemis::config (
       mode   => $file_read_mode,
       source => 'puppet:///modules/puppet/artemis/jolokia-access.xml',
       notify => Service["artemis ${instance_name}"],
+    }
+
+    file { "${instance_dir}/etc/management.xml":
+      ensure => file,
+      owner  => $owner,
+      group  => $group,
+      mode   => $file_read_mode,
+      source => 'puppet:///modules/puppet/artemis/management.xml',
+      notify => Service["artemis ${instance_name}"],
+    }
+
+    file { 'artemis profile':
+      ensure  => file,
+      path    => "${instance_dir}/etc/artemis.profile",
+      owner   => $owner,
+      group   => $group,
+      mode    => $file_read_mode,
+      content => epp('puppet/artemis/artemis.profile.epp', {
+        'roles' => $puppet::artemis::roles.map | Integer $index, Hash $entry | { $entry['name'] }
+      }),
+      notify  => Service["artemis ${instance_name}"],
     }
   }
 }

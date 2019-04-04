@@ -17,7 +17,8 @@ The following requirements apply to a local deployment:
 * Artemis Puppet module has the following dependencies:
   * [stdlib](https://forge.puppet.com/puppetlabs/stdlib)
 * Build dependencies:
-  * [puppet-lint](http://puppet-lint.com/) (optional)
+  * [puppet-lint](http://puppet-lint.com/)
+  * [puppet strings](https://puppet.com/docs/puppet/latest/puppet_strings.html)
 
 ## Gradle Properties
 
@@ -36,7 +37,7 @@ Hiera data environment name.
 ## Gradle Tasks
 
 **puppetPrepare**  
-Download module dependencies and copy key material.
+Copy key material.
 
 **puppetApply**  
 Install Artemis broker with Puppet.
@@ -64,5 +65,4 @@ If you want to use the Artemis module in another project, follow these steps:
 * Publish and pull the **puppet-artemis.zip** from a repository
 * **Unzip** the Artifcat to a Puppet modules folder
 * **Install** the Artemis Puppet module **dependencies**
-  * stdlib: `puppet module install puppetlabs-stdlib`
 * Run `FACTER_env=$ENVIRONMENT_NAME puppet apply --modulepath $MODULES_PATH  $NODE_CONFIG_PATH --hiera_config=$HIERA_CONFIG_PATH` to deploy an Artemis instance

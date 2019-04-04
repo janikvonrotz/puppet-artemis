@@ -30,7 +30,7 @@
    <web bind="https://<%= $puppet::artemis::host %>:<%= $puppet::artemis::admin_port %>" path="web" keyStorePath="<%= $puppet::artemis::server_keystore %>" keyStorePassword="<%= $puppet::artemis::keystore_pass %>" >
        <app url="activemq-branding" war="activemq-branding.war"/>
        <app url="artemis-plugin" war="artemis-plugin.war"/>
-       <app url="console" war="console.war"/>
+       <app url="<%= $puppet::artemis::admin_path %>" war="console.war"/>
    </web>
 
    <%- } else { -%>
@@ -39,7 +39,7 @@
    <web bind="http://<%= $puppet::artemis::host %>:<%= $puppet::artemis::admin_port %>" path="web">
        <app url="activemq-branding" war="activemq-branding.war"/>
        <app url="artemis-plugin" war="artemis-plugin.war"/>
-       <app url="console" war="console.war"/>
+       <app url="<%= $puppet::artemis::admin_path %>" war="console.war"/>
    </web>
 
    <%- } -%>

@@ -57,6 +57,14 @@ Port number of the Artemis management interface.
 
 Default value: 8161
 
+##### `admin_path`
+
+Data type: `String`
+
+Context path of the Artemis management interface.
+
+Default value: 'jms-management'
+
 ##### `version`
 
 Data type: `String`
@@ -79,7 +87,7 @@ Data type: `Boolean`
 
 If set the cleanup instead of the install tasks will be executed.
 
-Default value: $facts['clean']
+Default value: !=
 
 ##### `is_failover_instance`
 
@@ -119,7 +127,7 @@ Data type: `Boolean`
 
 Enable ssl for the management and message interface.
 
-Default value: `false`
+Default value: `true`
 
 ##### `enable_two_way_ssl`
 
@@ -129,21 +137,39 @@ Enable two-way-ssl for the management and message interface.
 
 Default value: `false`
 
-##### `user`
+##### `users`
 
-Data type: `String`
+Data type: `Array`
 
-Username for management and message interface access.
+List of users with id and password for management and message interface access.
 
-Default value: 'user'
+Default value: [
+    {
+      userid => 'admin',
+      password => 'password',
+    },
+    {
+      userid => 'default',
+      password => 'password',
+    },
+  ]
 
-##### `password`
+##### `roles`
 
-Data type: `String`
+Data type: `Array`
 
-Password for management and message interface access.
+List of roles with name and members for granting permissions on the management and message interface.
 
-Default value: 'password'
+Default value: [
+    {
+      name => 'amq',
+      members => 'admin',
+    },
+    {
+      name => 'view',
+      members => 'default',
+    },
+  ]
 
 ##### `tmp_dir`
 

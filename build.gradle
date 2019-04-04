@@ -47,13 +47,9 @@ task copyKeyMaterial(
 }
 
 task puppetPrepare(
-		type: Exec,
 		group: 'puppet',
-		dependsOn: [copyModule,copyKeyMaterial,downloadArtemisZipFile]
-) {
-	commandLine 'puppet', 'module', 'install', 'puppetlabs-stdlib', '--version', PUPPET_STDLIB_VERSION, '--modulepath',
-			"${project.buildDir}/generated/modules"
-}
+		dependsOn: [copyKeyMaterial,downloadArtemisZipFile]
+) {}
 
 task puppetApply(
 		type: Exec,

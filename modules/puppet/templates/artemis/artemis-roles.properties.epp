@@ -1,0 +1,3 @@
+<%- $puppet::artemis::roles.each | Integer $index, Hash $entry | { -%>
+<%= $entry['name'] %> = <%= $entry['members'] %>
+<%- } -%>

@@ -16,6 +16,8 @@
 #   Port number of the Artemis message interface.
 # @param [Integer] admin_port
 #   Port number of the Artemis management interface.
+# @param [String] admin_path
+#   Context path of the Artemis management interface.
 # @param [String] version
 #   Artemis binary zip version.
 # @param [String] instance_name
@@ -34,10 +36,10 @@
 #   Enable ssl for the management and message interface.
 # @param [Boolean] enable_two_way_ssl
 #   Enable two-way-ssl for the management and message interface.
-# @param [String] user
-#   Username for management and message interface access.
-# @param [String] password
-#   Password for management and message interface access.
+# @param [Array] users
+#   List of users with id and password for management and message interface access.
+# @param [Array] roles
+#   List of roles with name and members for granting permissions on the management and message interface.
 # @param [String] tmp_dir
 #   Temporary folder where Artemis binary zip is unpacked.
 # @param [String] cert_dir
@@ -100,15 +102,34 @@ class puppet::artemis (
   Integer $admin_port = 8161,
   String $version = '@ARTEMIS_VERSION@',
   String $instance_name = 'artemis',
-  Boolean $clean = $facts['clean'],
+  String $admin_path = 'jms-management',
+  Boolean $clean = $facts['clean'] != undef,
   Boolean $is_failover_instance = false,
   Optional[String] $failover_buddy_host = undef,
   String $cluster_user = 'artemis',
   String $cluster_password = 'password',
-  Boolean $enable_ssl = false,
+  Boolean $enable_ssl = true,
   Boolean $enable_two_way_ssl = false,
-  String $user = 'user',
-  String $password = 'password',
+  Array $users = [
+    {
+      userid => 'admin',
+      password => 'password',
+    },
+    {
+      userid => 'default',
+      password => 'password',
+    },
+  ],
+  Array $roles = [
+    {
+      name => 'amq',
+      members => 'admin',
+    },
+    {
+      name => 'view',
+      members => 'default',
+    },
+  ],
   String $tmp_dir = '/var/tmp',
   String $cert_dir = '/var/tmp/certificates',
   String $service_dir = '/etc/systemd/system',
@@ -159,9 +180,9 @@ class puppet::artemis (
     include 'puppet::artemis::service'
 
     if $enable_ssl or $enable_two_way_ssl {
-      notify { "Open https://${host}:${admin_port}/console in your browser.":}
+      notify { "Open https://${host}:${admin_port}/${admin_path} in your browser.":}
     } else {
-      notify { "Open http://${host}:${admin_port}/console in your browser.":}
+      notify { "Open http://${host}:${admin_port}/${admin_path} in your browser.":}
     }
   }
 }
