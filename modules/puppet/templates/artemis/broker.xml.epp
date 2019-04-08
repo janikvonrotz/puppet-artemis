@@ -184,15 +184,15 @@ under the License.
          <!-- Acceptor for every supported protocol -->
          <%- if $puppet::artemis::enable_ssl { -%>
 
-         <acceptor name="artemis">tcp://<%= $puppet::artemis::host %>:<%= $puppet::artemis::port %>?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;protocols=CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE;useEpoll=true;amqpCredits=1000;amqpLowCredits=300;sslEnabled=true;enabledCipherSuites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256;enabledProtocols=TLSv1.2;keyStorePath=<%= $puppet::artemis::server_keystore %>;keyStorePassword=<%= $puppet::artemis::keystore_pass %>;</acceptor>
+         <acceptor name="artemis">tcp://<%= $puppet::artemis::host %>:<%= $puppet::artemis::port %>?sslEnabled=true;keyStorePath=<%= $puppet::artemis::server_keystore %>;keyStorePassword=<%= $puppet::artemis::keystore_pass %></acceptor>
 
          <%- } elsif $puppet::artemis::enable_two_way_ssl { -%>
 
-         <acceptor name="artemis">tcp://<%= $puppet::artemis::host %>:<%= $puppet::artemis::port %>?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;protocols=CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE;useEpoll=true;amqpCredits=1000;amqpLowCredits=300;sslEnabled=true;enabledCipherSuites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256;enabledProtocols=TLSv1.2;keyStorePath=<%= $puppet::artemis::server_keystore %>;keyStorePassword=<%= $puppet::artemis::keystore_pass %>;trustStorePath=<%= $puppet::artemis::server_truststore %>;trustStorePassword=<%= $puppet::artemis::truststore_pass %></acceptor>
+         <acceptor name="artemis">tcp://<%= $puppet::artemis::host %>:<%= $puppet::artemis::port %>?sslEnabled=true;keyStorePath=<%= $puppet::artemis::server_keystore %>;keyStorePassword=<%= $puppet::artemis::keystore_pass %>;trustStorePath=<%= $puppet::artemis::server_truststore %>;trustStorePassword=<%= $puppet::artemis::truststore_pass %></acceptor>
 
          <%- } else { -%>
 
-         <acceptor name="artemis">tcp://<%= $puppet::artemis::host %>:<%= $puppet::artemis::port %>?tcpSendBufferSize=1048576;tcpReceiveBufferSize=1048576;protocols=CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE;useEpoll=true;amqpCredits=1000;amqpLowCredits=300</acceptor>
+         <acceptor name="artemis">tcp://<%= $puppet::artemis::host %>:<%= $puppet::artemis::port %></acceptor>
 
          <%- } -%>
 
